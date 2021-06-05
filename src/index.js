@@ -13,7 +13,7 @@ const App = () => {
     <div id="app">
       {isSignUpFormOpen 
         ? <LogInSignUpForm setUser={setUser} toggleSignUpForm={toggleSignUpForm} />
-        : <NavBar user={user} toggleSignUpForm={toggleSignUpForm} />
+        : <NavBar setUser={setUser} user={user} toggleSignUpForm={toggleSignUpForm} />
       }
     </div>
   )

@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import SimpleMenu from './SimpleMenu'
+import UserMenu from './UserMenu'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,7 +28,7 @@ export default function Header() {
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs />
-        <SimpleMenu />
+        <UserMenu />
       </AppBar>
     </div>
   );

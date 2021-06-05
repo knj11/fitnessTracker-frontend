@@ -3,12 +3,20 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-export default function SimpleMenu({ user, toggleSignUpForm }) {
+import { clearCurrentUser } from '../auth'
+
+export default function UserMenu({ user, toggleSignUpForm, setUser }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const handleSignOut = () => {
+    setAnchorEl(null)
+    clearCurrentUser()
+    setUser(false)
+  }
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -32,7 +40,7 @@ export default function SimpleMenu({ user, toggleSignUpForm }) {
         onClose={handleClose}
       >
         {user
-          ? <MenuItem onClick={handleClose}>Log Out</MenuItem>
+          ? <MenuItem onClick={handleSignOut}>Log Out</MenuItem>
           :
           <>
             <MenuItem onClick={handleClose}>Create New Account</MenuItem>

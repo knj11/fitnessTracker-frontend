@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import ToolBar from '@material-ui/core/Toolbar'
 
-import SimpleMenu from './SimpleMenu'
+import UserMenu from './UserMenu'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function NavBar({ user, toggleSignUpForm }) {
+export default function NavBar({ user, toggleSignUpForm, setUser }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -70,7 +70,7 @@ export default function NavBar({ user, toggleSignUpForm }) {
             <Tab label="Activities" {...a11yProps(1)} />
             <Tab label="Routines" {...a11yProps(2)} />
           </Tabs>
-          <SimpleMenu user={user} toggleSignUpForm={toggleSignUpForm} />
+          <UserMenu setUser={setUser} user={user} toggleSignUpForm={toggleSignUpForm} />
         </ToolBar>
       </AppBar>
       <TabPanel value={value} index={0}>
