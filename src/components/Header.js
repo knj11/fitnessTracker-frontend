@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import SimpleMenu from './SimpleMenu'
-import Tabs from './Tabs'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {

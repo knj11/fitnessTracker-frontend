@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-export default function SimpleMenu() {
+export default function SimpleMenu({ user, toggleSignUpForm }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -14,10 +14,15 @@ export default function SimpleMenu() {
     setAnchorEl(null);
   };
 
+  const handleSignIn = () => {
+    setAnchorEl(null)
+    toggleSignUpForm(true)
+  }
+
   return (
     <div>
       <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        Login
+        {user ? user : 'LOGIN'}
       </Button>
       <Menu
         id="simple-menu"
@@ -26,8 +31,14 @@ export default function SimpleMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Create New Account</MenuItem>
-        <MenuItem onClick={handleClose}>Sign In</MenuItem>
+        {user
+          ? <MenuItem onClick={handleClose}>Log Out</MenuItem>
+          :
+          <>
+            <MenuItem onClick={handleClose}>Create New Account</MenuItem>
+            <MenuItem onClick={handleSignIn}>Sign In</MenuItem>
+          </>
+        }
       </Menu>
     </div>
   );

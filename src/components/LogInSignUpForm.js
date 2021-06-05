@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Grid, Paper, Avatar, TextField, Button, Typography, Link } from '@material-ui/core'
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 
-import { signUpRequest, logInRequest } from '../auth'
+import { signUpRequest, logInRequest, getUser } from '../auth'
 
 const paperStyle = { padding: 20, height: '70vh', width: 280, margin: "20px auto" }
 const avatarStyle = { backgroundColor: '#1bbd7e' }
@@ -10,7 +10,7 @@ const btnstyle = { margin: '8px 0' }
 const errorColor = { color: 'red' }
 
 
-const LogInSignUpForm = ({ setIsUserLoggedIn }) => {
+const LogInSignUpForm = ({ setUser, toggleSignUpForm }) => {
   const [isLogInForm, setIsLogInForm] = useState(true)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -42,7 +42,8 @@ const LogInSignUpForm = ({ setIsUserLoggedIn }) => {
       } else {
         await signUpRequest(username, password)
       }
-      setIsUserLoggedIn(true)
+      setUser(getUser())
+      toggleSignUpForm(false)
     } catch (error) {
       //Display a message for the user
       console.log(error)

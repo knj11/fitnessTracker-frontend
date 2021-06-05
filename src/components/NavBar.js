@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function SimpleTabs() {
+export default function NavBar({ user, toggleSignUpForm }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -70,7 +70,7 @@ export default function SimpleTabs() {
             <Tab label="Activities" {...a11yProps(1)} />
             <Tab label="Routines" {...a11yProps(2)} />
           </Tabs>
-          <SimpleMenu />
+          <SimpleMenu user={user} toggleSignUpForm={toggleSignUpForm} />
         </ToolBar>
       </AppBar>
       <TabPanel value={value} index={0}>

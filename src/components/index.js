@@ -1,3 +1,3 @@
 export { default as Header } from './Header'
 export { default as LogInSignUpForm } from './LogInSignUpForm'
-export { default as Tabs } from './Tabs'
+export { default as NavBar } from './NavBar'

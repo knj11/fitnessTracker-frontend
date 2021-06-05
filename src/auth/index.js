@@ -33,9 +33,9 @@ export function storeCurrentUser(response) {
   localStorage.setItem('User', JSON.stringify(user));
 }
 
-export function getCurrentUser() {
-  const user = JSON.parse(localStorage.getItem('currentUser'));
-  return user;
+export function getUser() {
+  const user = JSON.parse(localStorage.getItem('User'));
+  return (user) ? user.username : false;
 }
 
 export function clearCurrentUser() {

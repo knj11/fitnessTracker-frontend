@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 
-import { Header, LogInSignUpForm, Tabs } from './components'
-import { getCurrentUser } from './auth'
-
-//toggle Login
-const isUserLoggedInDuringStartUp = (getCurrentUser()) ? true : false
+import { Header, LogInSignUpForm, NavBar } from './components'
+import { getUser } from './auth'
 
 const App = () => {
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState(isUserLoggedInDuringStartUp)
+  //call getUser to check if its in local storage
+  const [user, setUser] = useState(getUser())
+  const [isSignUpFormOpen, toggleSignUpForm] = useState(false)
 
   return (
     <div id="app">
-      {isUserLoggedIn
-        ? <Tabs />
-        : <LogInSignUpForm setIsUserLoggedIn={setIsUserLoggedIn} />
+      {isSignUpFormOpen 
+        ? <LogInSignUpForm setUser={setUser} toggleSignUpForm={toggleSignUpForm} />
+        : <NavBar user={user} toggleSignUpForm={toggleSignUpForm} />
       }
     </div>
   )
