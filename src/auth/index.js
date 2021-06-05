@@ -27,8 +27,10 @@ export const logInRequest = async (username, password) => {
   }
 }
 
-export function storeCurrentUser(user) {
-  localStorage.setItem('currentUser', JSON.stringify(user));
+export function storeCurrentUser(response) {
+  const {token, user} = response.data
+  localStorage.setItem('Token', JSON.stringify(token));
+  localStorage.setItem('User', JSON.stringify(user));
 }
 
 export function getCurrentUser() {

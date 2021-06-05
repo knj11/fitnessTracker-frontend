@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 
 import { Header, LogInSignUpForm, Tabs } from './components'
+import { getCurrentUser } from './auth'
 
 //toggle Login
-const isUserLoggedInDuringStartUp = false
+const isUserLoggedInDuringStartUp = (getCurrentUser()) ? true : false
 
 const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(isUserLoggedInDuringStartUp)
