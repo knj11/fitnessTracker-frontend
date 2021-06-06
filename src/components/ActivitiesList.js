@@ -1,6 +1,6 @@
-import React, { cloneElement } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { List, ListItem, ListItemIcon, ListItemText, Grid, Typography } from '@material-ui/core';
+import { List, ListItem, ListItemIcon, ListItemText, Grid, Typography, Toolbar } from '@material-ui/core';
 
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter'
 
@@ -24,10 +24,12 @@ export default function ActivitiesList({ activities }) {
   return (
     <div className={classes.root}>
       <Grid container spacing={2}>
-        <Typography variant="h6" className={classes.title}>
-          All Activities
-        </Typography>
-        <List>
+        <Toolbar >
+          <Typography variant="h6" className={classes.title}>
+            All Activities
+          </Typography>
+        </Toolbar>
+        <List >
           {(activities)
             ? activities.map((activity, idx) => {
               return (
