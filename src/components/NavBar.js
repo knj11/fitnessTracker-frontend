@@ -1,14 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import ToolBar from '@material-ui/core/Toolbar'
+import { AppBar, Tabs, Tab, Typography, Box, Toolbar } from '@material-ui/core';
 
 import UserMenu from './UserMenu'
+import ActivitiesList from './ActivitiesList'
+import { getActivitiesEndPoint } from '../api'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -55,7 +52,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NavBar({ user, toggleSignUpForm, setUser }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [activities, setActivities] = useState(null)
+
+  useEffect(() => {
+    getActivitiesEndPoint().then(response => setActivities(response))
+  }, [])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -63,21 +65,21 @@ export default function NavBar({ user, toggleSignUpForm, setUser }) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <ToolBar className={classes.spaceBetween}>
+      <AppBar position="sticky">
+        <Toolbar className={classes.spaceBetween}>
           <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
             <Tab label="Home" {...a11yProps(0)} />
             <Tab label="Activities" {...a11yProps(1)} />
             <Tab label="Routines" {...a11yProps(2)} />
           </Tabs>
           <UserMenu setUser={setUser} user={user} toggleSignUpForm={toggleSignUpForm} />
-        </ToolBar>
+        </Toolbar>
       </AppBar>
       <TabPanel value={value} index={0}>
         Home
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Activities
+        <ActivitiesList activities={activities} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         Routines
