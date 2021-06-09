@@ -8,7 +8,8 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect
+  Redirect,
+  NavLink
 } from 'react-router-dom';
 
 import UserMenu from './UserMenu'
@@ -66,9 +67,13 @@ export default function NavBar({ user, toggleSignUpForm, setUser }) {
   const [value, setValue] = useState(0);
   const [activities, setActivities] = useState(null)
   const [routines, setRoutines] = useState(null)
+  const [newActivity, setNewActivity] = useState(0)
 
   useEffect(() => {
     getActivitiesEndPoint().then(response => setActivities(response)).catch(error => console.log(error))
+  }, [newActivity])
+
+  useEffect(() => {
     getRoutines().then(response => setRoutines(response)).catch(error => console.log(error))
   }, [])
 
@@ -77,26 +82,39 @@ export default function NavBar({ user, toggleSignUpForm, setUser }) {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="sticky">
-        <Toolbar className={classes.spaceBetween}>
-          <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-            <Tab label="Home" {...a11yProps(0)} />
-            <Tab label="Activities" {...a11yProps(1)} />
-            <Tab label="Routines" {...a11yProps(2)} />
-          </Tabs>
-          <UserMenu setUser={setUser} user={user} toggleSignUpForm={toggleSignUpForm} />
-        </Toolbar>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        Home
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <ActivitiesList activities={activities} />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-          <RoutinesList routines={routines} />
-      </TabPanel>
-    </div>
+    <Router>
+      <div className={classes.root}>
+        <AppBar position="sticky">
+          <Toolbar className={classes.spaceBetween}>
+            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+              {/* <Tab label="Home" {...a11yProps(0)} /> */}
+              <NavLink to='/' color="white">Home</NavLink>
+              <NavLink to='/activities'>Activities</NavLink>
+              <NavLink to='/routines'>Routines</NavLink>
+              {/* <Tab label="Activities" {...a11yProps(1)} />
+              <Tab label="Routines" {...a11yProps(2)} /> */}
+            </Tabs>
+            <UserMenu setUser={setUser} user={user} toggleSignUpForm={toggleSignUpForm} />
+          </Toolbar>
+        </AppBar>
+        <Switch>
+          {/* <TabPanel value={value} index={0}> */}
+            <Route exact path='/'>
+              Home
+            </Route>
+          {/* </TabPanel> */}
+          {/* <TabPanel value={value} index={1}> */}
+            <Route path='/activities'>
+              <ActivitiesList newActivity={newActivity} setNewActivity={setNewActivity} user={user} activities={activities} />
+            </Route>
+          {/* </TabPanel> */}
+          {/* <TabPanel value={value} index={2}> */}
+            <Route path='/routines'>
+              <RoutinesList routines={routines} />
+            </Route>
+          {/* </TabPanel> */}
+        </Switch>
+      </div>
+    </Router>
   );
 }

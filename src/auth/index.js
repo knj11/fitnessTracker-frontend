@@ -41,7 +41,7 @@ export const checkIfTokenIsStillValid = async () => {
   }
 }
 
-function _getToken() {
+export const getToken = () => {
   const token = JSON.parse(localStorage.getItem('Token'))
   return (token) ? token : false
 }
