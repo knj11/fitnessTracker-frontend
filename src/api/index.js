@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const URL_DOMAIN = `http://fitnesstrac-kr.herokuapp.com`
 
-import { getToken } from '../auth'
+import { getToken, getUsername } from '../auth'
 
 //const _storeActivities = (activities) => localStorage.setItem('activities', JSON.stringify(activities))
 
@@ -40,6 +40,23 @@ export const postNewActivity = async (activityName, activityDescription) => {
       }
     })
     return activity
+  } catch (error) {
+    console.dir(error)
+  }
+}
+
+export const getMyRoutines = async () => {
+  try {
+    const authToken = getToken()
+    const username = getUsername()
+
+    const {data: myRoutines} = await axios.get(`${URL_DOMAIN}/api/users/${username}/routines`,{
+      headers: {
+        'Authorization': `Bearer ${authToken}`
+      }
+    })
+    console.log('myRoutines', myRoutines)
+    return myRoutines
   } catch (error) {
     console.dir(error)
   }

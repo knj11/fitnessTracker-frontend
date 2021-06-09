@@ -30,7 +30,7 @@ export const logInRequest = async (username, password) => {
 export const checkIfTokenIsStillValid = async () => {
   try {
     console.log('checking token')
-    const token = _getToken()
+    const token = getToken()
     if (!token) throw "token not in storage"
     await axios.get(`${URL_DOMAIN}/api/users/me`, { headers: { Authorization: `Bearer ${token}` } })
     return true
@@ -44,6 +44,11 @@ export const checkIfTokenIsStillValid = async () => {
 export const getToken = () => {
   const token = JSON.parse(localStorage.getItem('Token'))
   return (token) ? token : false
+}
+
+export const getUsername = () => {
+  const {username} = JSON.parse(localStorage.getItem('User'))
+  return username
 }
 
 function _storeCurrentUser(response) {

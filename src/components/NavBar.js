@@ -15,7 +15,7 @@ import {
 import UserMenu from './UserMenu'
 import ActivitiesList from './ActivitiesList'
 import RoutinesList from './RoutinesList'
-import { getActivitiesEndPoint, getRoutines } from '../api'
+import { getActivitiesEndPoint, getRoutines, getMyRoutines } from '../api'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -68,6 +68,7 @@ export default function NavBar({ user, toggleSignUpForm, setUser }) {
   const [activities, setActivities] = useState(null)
   const [routines, setRoutines] = useState(null)
   const [newActivity, setNewActivity] = useState(0)
+  const [myRoutines, setMyRoutines] = useState(null)
 
   useEffect(() => {
     getActivitiesEndPoint().then(response => setActivities(response)).catch(error => console.log(error))
@@ -75,6 +76,12 @@ export default function NavBar({ user, toggleSignUpForm, setUser }) {
 
   useEffect(() => {
     getRoutines().then(response => setRoutines(response)).catch(error => console.log(error))
+  }, [])
+
+  useEffect(() => {
+    if (user) {
+      getMyRoutines().then(response => setMyRoutines(response)).catch(error => console.log(error))
+    }
   }, [])
 
   const handleChange = (event, newValue) => {
@@ -91,6 +98,7 @@ export default function NavBar({ user, toggleSignUpForm, setUser }) {
               <NavLink to='/' color="white">Home</NavLink>
               <NavLink to='/activities'>Activities</NavLink>
               <NavLink to='/routines'>Routines</NavLink>
+              {(user) ? <NavLink to='/myRoutines'>My Routines</NavLink> : ''}
               {/* <Tab label="Activities" {...a11yProps(1)} />
               <Tab label="Routines" {...a11yProps(2)} /> */}
             </Tabs>
@@ -99,19 +107,26 @@ export default function NavBar({ user, toggleSignUpForm, setUser }) {
         </AppBar>
         <Switch>
           {/* <TabPanel value={value} index={0}> */}
-            <Route exact path='/'>
-              Home
+          <Route exact path='/'>
+            Home
             </Route>
           {/* </TabPanel> */}
           {/* <TabPanel value={value} index={1}> */}
-            <Route path='/activities'>
-              <ActivitiesList newActivity={newActivity} setNewActivity={setNewActivity} user={user} activities={activities} />
-            </Route>
+          <Route path='/activities'>
+            <ActivitiesList newActivity={newActivity} setNewActivity={setNewActivity} user={user} activities={activities} />
+          </Route>
           {/* </TabPanel> */}
           {/* <TabPanel value={value} index={2}> */}
-            <Route path='/routines'>
-              <RoutinesList routines={routines} />
+          <Route path='/routines'>
+            <RoutinesList routines={routines} />
+          </Route>
+          {(user)
+            ?
+            <Route path='/myRoutines'>
+              <RoutinesList myRoutines={myRoutines} />
             </Route>
+            : ""
+          }
           {/* </TabPanel> */}
         </Switch>
       </div>
