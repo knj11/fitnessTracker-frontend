@@ -58,7 +58,7 @@ export default function ActivitiesList({ activities, user, setNewActivity, newAc
             <TextField id="activityName" label='ActivityName' placeholder='Enter the ActivityName' onChange={(event) => setActivityName(event.target.value)} fullWidth required />
             <TextField id="activityDescription" label='ActivityDescription' placeholder='Enter the Description' onChange={(event) => setActivityDescription(event.target.value)} fullWidth required />
             <Button type='submit' color='primary' variant="contained" fullWidth>Create New Activity</Button>
-            <Typography style={errorColor}>
+            <Typography>
               {errorMessage}
             </Typography>
           </form>

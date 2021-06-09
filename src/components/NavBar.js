@@ -68,6 +68,7 @@ export default function NavBar({ user, toggleSignUpForm, setUser }) {
   const [activities, setActivities] = useState(null)
   const [routines, setRoutines] = useState(null)
   const [newActivity, setNewActivity] = useState(0)
+  const [newRoutine, setNewRoutine] = useState(0)
   const [myRoutines, setMyRoutines] = useState(null)
 
   useEffect(() => {
@@ -76,7 +77,7 @@ export default function NavBar({ user, toggleSignUpForm, setUser }) {
 
   useEffect(() => {
     getRoutines().then(response => setRoutines(response)).catch(error => console.log(error))
-  }, [])
+  }, [newRoutine])
 
   useEffect(() => {
     if (user) {
@@ -118,12 +119,12 @@ export default function NavBar({ user, toggleSignUpForm, setUser }) {
           {/* </TabPanel> */}
           {/* <TabPanel value={value} index={2}> */}
           <Route path='/routines'>
-            <RoutinesList routines={routines} />
+            <RoutinesList user={user} routines={routines} newRoutine={newRoutine} setNewRoutine={setNewRoutine} />
           </Route>
           {(user)
             ?
             <Route path='/myRoutines'>
-              <RoutinesList myRoutines={myRoutines} />
+              <RoutinesList routines={myRoutines} />
             </Route>
             : ""
           }

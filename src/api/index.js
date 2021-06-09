@@ -62,3 +62,23 @@ export const getMyRoutines = async () => {
     console.dir(error)
   }
 }
+
+export const postNewRoutine = async (routineName, routineGoal, isPublic) => {
+  try {
+    const authToken = getToken()
+
+    const {data: newRoutine} = await axios.post(`${URL_DOMAIN}/api/routines`, {
+      name: routineName,
+      goal: routineGoal,
+      isPublic: isPublic
+    }, {
+      headers: {
+        'Authorization': `Bearer ${authToken}`
+      }
+    })
+    return newRoutine
+  } catch (error) {
+    console.dir(error)
+    throw error.response.data
+  }
+}

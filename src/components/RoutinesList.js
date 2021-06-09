@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardContent, Typography, List, ListItem } from '@material-ui/core';
+import { Card, CardContent, Typography, List, ListItem, Radio, TextField, Button, FormLabel, RadioGroup, FormControlLabel } from '@material-ui/core';
+
+import { postNewRoutine } from '../api'
 
 const useStyles = makeStyles({
   root: {
@@ -22,11 +24,52 @@ const useStyles = makeStyles({
   }
 });
 
-export default function RoutinesList({ routines }) {
+export default function RoutinesList({ routines, user, setNewRoutine, newRoutine }) {
   const classes = useStyles();
+
+  const [routineName, setRoutineName] = useState('')
+  const [routineGoal, setRoutineGoal] = useState('')
+  const [isPublic, setIsPublic] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  const createNewRoutine = async (event) => {
+    event.preventDefault()
+    try {
+      await postNewRoutine(routineName, routineGoal, isPublic)
+      document.getElementById('routineName').value = ''
+      document.getElementById('routineGoal').value = ''
+      setRoutineName('')
+      setRoutineGoal('')
+      setIsPublic(false)
+      setErrorMessage('')
+      const updateRoutineCounter = newRoutine + 1
+      setNewRoutine(updateRoutineCounter)
+    } catch (error) {
+      console.dir(error)
+      setErrorMessage(error.message)
+    }
+  }
 
   return (
     <>
+      {(user)
+        ?
+        <form onSubmit={createNewRoutine}>
+          <TextField id="routineName" label='RoutineName' placeholder='Enter the RoutineName' onChange={(event) => setRoutineName(event.target.value)} fullWidth required />
+          <TextField id="routineGoal" label='RoutineGoal' placeholder='Enter the Goal' onChange={(event) => setRoutineGoal(event.target.value)} fullWidth required />
+          <FormLabel component="legend">Set Routine to Public?</FormLabel>
+          <RadioGroup aria-label="quiz" name="quiz" value={isPublic} onChange={(event) => setIsPublic(event.target.value)}>
+            <FormControlLabel value="true" control={<Radio />} label="Yes" />
+            <FormControlLabel value="false" control={<Radio />} label="No" />
+          </RadioGroup>
+          {/* <Radio onChange={(event) => setIsPublic(event.target.value)}></Radio> */}
+          <Button type='submit' color='primary' variant="contained" fullWidth>Create New Routine</Button>
+          <Typography>
+            {errorMessage}
+          </Typography>
+        </form>
+        : <div></div>
+      }
       {(routines)
         ? routines.map((routine, idx) => {
           return (
