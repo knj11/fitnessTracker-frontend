@@ -42,6 +42,7 @@ export const postNewActivity = async (activityName, activityDescription) => {
     return activity
   } catch (error) {
     console.dir(error)
+    throw error.response.data
   }
 }
 

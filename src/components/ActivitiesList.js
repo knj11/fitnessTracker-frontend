@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     margin: theme.spacing(4, 0, 2),
   },
+  errorColor: {
+    color: "red"
+  }
 }));
 
 
@@ -27,13 +30,18 @@ export default function ActivitiesList({ activities, user, setNewActivity, newAc
 
   const [activityName, setActivityName] = useState('')
   const [activityDescription, setActivityDescription] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
-  const createNewActivity = (event) => {
+  const createNewActivity = async (event) => {
     event.preventDefault()
-    postNewActivity(activityName, activityDescription).then(r => {
+    try {
+      await postNewActivity(activityName, activityDescription)
       const updateActivityCounter = newActivity + 1
       setNewActivity(updateActivityCounter)
-    })
+    } catch (error) {
+      console.log(error)
+      setErrorMessage(error.message)
+    }
   }
 
   return (
@@ -50,6 +58,9 @@ export default function ActivitiesList({ activities, user, setNewActivity, newAc
             <TextField id="activityName" label='ActivityName' placeholder='Enter the ActivityName' onChange={(event) => setActivityName(event.target.value)} fullWidth required />
             <TextField id="activityDescription" label='ActivityDescription' placeholder='Enter the Description' onChange={(event) => setActivityDescription(event.target.value)} fullWidth required />
             <Button type='submit' color='primary' variant="contained" fullWidth>Create New Activity</Button>
+            <Typography style={errorColor}>
+              {errorMessage}
+            </Typography>
           </form>
           : <div></div>
         }
