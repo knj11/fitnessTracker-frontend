@@ -41,11 +41,7 @@ export default function UserMenu({ user, toggleSignUpForm, setUser }) {
       >
         {user
           ? <MenuItem onClick={handleSignOut}>Log Out</MenuItem>
-          :
-          <>
-            <MenuItem onClick={handleClose}>Create New Account</MenuItem>
-            <MenuItem onClick={handleSignIn}>Sign In</MenuItem>
-          </>
+          : <MenuItem onClick={handleSignIn}>Sign In</MenuItem>
         }
       </Menu>
     </div>

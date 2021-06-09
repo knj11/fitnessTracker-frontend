@@ -6,11 +6,21 @@ const URL_DOMAIN = `http://fitnesstrac-kr.herokuapp.com`
 
 export const getActivitiesEndPoint = async () => {
   try {
-    const {data} = await axios.get(`${URL_DOMAIN}/api/activities`)
-    console.log('activities', data)
+    const {data: activities} = await axios.get(`${URL_DOMAIN}/api/activities`)
+    console.log('activities', activities)
     
-    return data
+    return activities
   } catch (error) {
     console.error(error)
+  }
+}
+
+export const getRoutines = async () => {
+  try {
+    const {data: routines} = await axios.get(`${URL_DOMAIN}/api/routines`)
+    console.log('routines', routines)
+    return routines
+  } catch (error) {
+    console.log(error)
   }
 }

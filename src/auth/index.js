@@ -58,6 +58,5 @@ export function getUser() {
 }
 
 export function clearCurrentUser() {
-  localStorage.removeItem('User');
-  localStorage.removeItem('Token');
+  localStorage.clear()
 }

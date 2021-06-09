@@ -2,10 +2,19 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Tabs, Tab, Typography, Box, Toolbar } from '@material-ui/core';
+import ReactDOM from 'react-dom'
+
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from 'react-router-dom';
 
 import UserMenu from './UserMenu'
 import ActivitiesList from './ActivitiesList'
-import { getActivitiesEndPoint } from '../api'
+import RoutinesList from './RoutinesList'
+import { getActivitiesEndPoint, getRoutines } from '../api'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -50,13 +59,17 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
+
 export default function NavBar({ user, toggleSignUpForm, setUser }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [activities, setActivities] = useState(null)
+  const [routines, setRoutines] = useState(null)
 
   useEffect(() => {
-    getActivitiesEndPoint().then(response => setActivities(response))
+    getActivitiesEndPoint().then(response => setActivities(response)).catch(error => console.log(error))
+    getRoutines().then(response => setRoutines(response)).catch(error => console.log(error))
   }, [])
 
   const handleChange = (event, newValue) => {
@@ -82,7 +95,7 @@ export default function NavBar({ user, toggleSignUpForm, setUser }) {
         <ActivitiesList activities={activities} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Routines
+          <RoutinesList routines={routines} />
       </TabPanel>
     </div>
   );
